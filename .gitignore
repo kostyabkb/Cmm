@@ -218,3 +218,8 @@ Thumbs.db
 
 **/dist
 **/wwwroot/
+/Cmm.Host/logs
+/Cmm.Host/bin
+/Cmm.Host/obj
+/Cmm.Contracts/obj
+/Cmm.Contracts/bin

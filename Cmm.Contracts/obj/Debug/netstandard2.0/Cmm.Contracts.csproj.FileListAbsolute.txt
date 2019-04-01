@@ -1,9 +1,0 @@
-C:\git\Cmm\Cmm.Contracts\bin\Debug\netstandard2.0\Cmm.Contracts.deps.json
-C:\git\Cmm\Cmm.Contracts\bin\Debug\netstandard2.0\Cmm.Contracts.dll
-C:\git\Cmm\Cmm.Contracts\bin\Debug\netstandard2.0\Cmm.Contracts.pdb
-C:\git\Cmm\Cmm.Contracts\obj\Debug\netstandard2.0\Cmm.Contracts.csprojAssemblyReference.cache
-C:\git\Cmm\Cmm.Contracts\obj\Debug\netstandard2.0\Cmm.Contracts.csproj.CoreCompileInputs.cache
-C:\git\Cmm\Cmm.Contracts\obj\Debug\netstandard2.0\Cmm.Contracts.AssemblyInfoInputs.cache
-C:\git\Cmm\Cmm.Contracts\obj\Debug\netstandard2.0\Cmm.Contracts.AssemblyInfo.cs
-C:\git\Cmm\Cmm.Contracts\obj\Debug\netstandard2.0\Cmm.Contracts.dll
-C:\git\Cmm\Cmm.Contracts\obj\Debug\netstandard2.0\Cmm.Contracts.pdb
