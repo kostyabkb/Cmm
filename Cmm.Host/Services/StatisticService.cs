@@ -31,10 +31,10 @@ namespace Cmm.Host.Services
 
         public void Save(DeviceStatistic device)
         {
-            var result = deviceRepository.GetById(device.Id);
-            if (result != null)
+            var currentDevice = deviceRepository.GetById(device.Id);
+            if (currentDevice != null)
             {
-                deviceRepository.Update(result, Convert(device));
+                deviceRepository.Update(currentDevice, Convert(device));
             }
             else
             {
