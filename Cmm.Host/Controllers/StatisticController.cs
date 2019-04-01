@@ -19,7 +19,7 @@ namespace Cmm.Host.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public void Index([FromBody]DeviceStatistic device)
+        public void AddDevice([FromBody]DeviceStatistic device)
         {        
                 logger.Debug("Были получены и валидированы данные.");
                 statisticService.Save(device);

@@ -20,7 +20,7 @@ namespace Cmm.Host.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<DeviceResponse> GetList()
+        public IEnumerable<DeviceResponse> GetDeviceList()
         {
             logger.Debug("Данные отправляются по запросу.");
 
