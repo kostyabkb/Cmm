@@ -11,45 +11,38 @@ namespace Cmm.Host.Services
     /// <inheritdoc/>
     public class StatisticService : IStatisticService
     {
-        private readonly DeviceRepository deviceRepository;
+        private readonly IRepository deviceRepository;
         private readonly ILogger logger = Log.ForContext<StatisticService>();
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="deviceRepository">Репозиторий.</param>
-        public StatisticService(DeviceRepository deviceRepository)
+        public StatisticService(IRepository deviceRepository)
         {
             this.deviceRepository = deviceRepository;
         }
 
         public List<DeviceResponse> GetStatistic()
         {
-            return deviceRepository.Get()
-                .ConvertAll(new Converter<Device, DeviceResponse>(Convert));
+            return deviceRepository.Get().Select(x => new DeviceResponse
+            {
+                Name = x.Name,
+                Os = x.Os,
+                Version = x.Version
+            }).ToList();
         }
 
         public void Save(DeviceStatistic device)
         {
-            var currentDevice = deviceRepository.GetById(device.Id);
-            if (currentDevice != null)
-            {
-                deviceRepository.Update(currentDevice, Convert(device));
-            }
-            else
+            if (!deviceRepository.Get().Any(x => x.Id == device.Id))
             {
                 deviceRepository.Add(Convert(device));
             }
-        }
-
-        private DeviceResponse Convert(Device device)
-        {
-            return new DeviceResponse
+            else
             {
-                Name = device.Name,
-                Os = device.Os,
-                Version = device.Version
-            };
+                deviceRepository.Update(Convert(device));
+            }
         }
 
         private Device Convert(DeviceStatistic device)

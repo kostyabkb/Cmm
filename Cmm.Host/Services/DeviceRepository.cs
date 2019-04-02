@@ -14,12 +14,18 @@ namespace Cmm.Host.Services
         /// Конструктор.
         /// </summary>
         /// <param name="items">Коллекция device.</param>
-        public DeviceRepository(List<Device> items)
+        public DeviceRepository()
         {
-            if (items.Any())
+            items = new List<Device>
             {
-                this.items = items;
-            }
+                new Device
+                {
+                    Id = new Guid(),
+                    Name = "ddd",
+                    Os = "34",
+                    Version = "df"
+                }
+            };
         }
 
         public void Add(Device device)
@@ -45,10 +51,15 @@ namespace Cmm.Host.Services
             return null;
         }
 
-        public void Update(Device oldDevice, Device device)
+        public void Update(Device device)
         {
-            int index = items.IndexOf(oldDevice);
-            items.Insert(index, device);
+            for (int i = 0; i < items.Count(); i++)
+            {
+                if (items[i].Id == device.Id)
+                {
+                    items[i] = device;
+                }
+            }
         }
     }
 }

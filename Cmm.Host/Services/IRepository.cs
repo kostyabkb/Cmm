@@ -8,7 +8,7 @@ namespace Cmm.Host.Services
     /// <summary>
     /// Репозиторий device.
     /// </summary>
-    interface IRepository
+    public interface IRepository
     {
         /// <summary>
         /// Добавить.
@@ -26,8 +26,7 @@ namespace Cmm.Host.Services
         /// Обновить запись.
         /// </summary>
         /// <param name="device">Устройство.</param>
-        /// <param name="index">Номер в коллекции.</param>
-        void Update(Device devicex, Device device);
+        void Update(Device device);
 
         /// <summary>
         /// Получить объект по Id.

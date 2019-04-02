@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.Contracts;
 using Cmm.Host.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +27,7 @@ namespace Cmm.Host
             services.AddSingleton<IStatisticService, StatisticService>();
             services.AddTransient<IRepository, DeviceRepository>();
 
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
 
@@ -42,14 +44,6 @@ namespace Cmm.Host
             }
 
             app.UseMvc();
-
-            //app.UseRouting(routes =>
-            //{
-            //    routes.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //    });
-            //});
         }
     }
 }

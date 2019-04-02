@@ -5,19 +5,28 @@ using Serilog;
 
 namespace Cmm.Host.Controllers
 {
+    /// <summary>
+    /// Контроллер.
+    /// </summary>
     [Route("api/[controller]")]
-    [ApiController]
     public class StatisticController : Controller
     {
         private readonly IStatisticService statisticService;
         private readonly ILogger logger = Log.ForContext<StatisticController>();
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="statisticService">Сервис статистики.</param>
         public StatisticController(IStatisticService statisticService)
         {
             this.statisticService = statisticService;
         }
 
-        // POST api/<controller>
+        /// <summary>
+        /// Пост контроллер.
+        /// </summary>
+        /// <param name="device">Девайс.</param>
         [HttpPost]
         public void AddDevice([FromBody]DeviceStatistic device)
         {        
