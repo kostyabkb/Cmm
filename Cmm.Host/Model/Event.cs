@@ -3,12 +3,12 @@
 namespace Cmm.Host.Model
 {
     /// <summary>
-    /// Устройство, хранится в базе.
+    /// Событие.
     /// </summary>
-    public class Device
+    public class Event
     {
         /// <summary>
-        /// Идентификатор.
+        /// Id.
         /// </summary>
         public Guid Id { get; set; }
 
@@ -18,13 +18,13 @@ namespace Cmm.Host.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// ОС.
+        /// Время.
         /// </summary>
-        public string Os { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         /// <summary>
-        /// Версия.
+        /// Id устройства.
         /// </summary>
-        public string Version { get; set; }
+        public Guid DeviceId { get; set; }
     }
 }

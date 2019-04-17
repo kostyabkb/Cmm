@@ -1,0 +1,46 @@
+﻿@page "/"
+@using System.IO
+@using System.Net
+@using Microsoft.AspNetCore.Components
+@using Contracts
+@inject HttpClient Http
+
+<h1>Мониторинг</h1>
+
+<p>Сервис мониторинга мобильного приложения.</p>
+
+@if (devices == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>ОС</th>
+            <th>Версия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in devices)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Os</td>
+                <td>@item.Version</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@functions {
+    DeviceResponse[] devices;
+
+    protected override async Task OnInitAsync()
+    {
+        devices = await Http.GetJsonAsync<DeviceResponse[]>(@"http://localhost:5000/api/device");
+    }
+}

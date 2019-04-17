@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Cmm.Contracts;
 using Cmm.Host.Model;
+using Cmm.Host.Repositories;
+using Mapster;
 using Serilog;
 
 namespace Cmm.Host.Services
@@ -11,49 +11,36 @@ namespace Cmm.Host.Services
     /// <inheritdoc/>
     public class StatisticService : IStatisticService
     {
-        private readonly IRepository deviceRepository;
+        private readonly IDeviceRepository deviceDeviceRepository;
         private readonly ILogger logger = Log.ForContext<StatisticService>();
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="deviceRepository">Репозиторий.</param>
-        public StatisticService(IRepository deviceRepository)
+        /// <param name="deviceDeviceRepository">Репозиторий.</param>
+        public StatisticService(IDeviceRepository deviceDeviceRepository)
         {
-            this.deviceRepository = deviceRepository;
+            this.deviceDeviceRepository = deviceDeviceRepository;
         }
 
         public List<DeviceResponse> GetStatistic()
         {
-            return deviceRepository.Get().Select(x => new DeviceResponse
-            {
-                Name = x.Name,
-                Os = x.Os,
-                Version = x.Version
-            }).ToList();
+            return deviceDeviceRepository.Get()
+                .Adapt<List<Device>, List<DeviceResponse>>();
         }
 
         public void Save(DeviceStatistic device)
         {
-            if (!deviceRepository.Get().Any(x => x.Id == device.Id))
+            if (deviceDeviceRepository.GetById(device.Id) == null)
             {
-                deviceRepository.Add(Convert(device));
+                deviceDeviceRepository.Add(device
+                    .Adapt<DeviceStatistic, Device>());
             }
             else
             {
-                deviceRepository.Update(Convert(device));
+                deviceDeviceRepository.Update(device
+                    .Adapt<DeviceStatistic, Device>());
             }
-        }
-
-        private Device Convert(DeviceStatistic device)
-        {
-            return new Device
-            {
-                Id = device.Id,
-                Name = device.Name,
-                Os = device.Os,
-                Version = device.Version
-            };
         }
     }
 }

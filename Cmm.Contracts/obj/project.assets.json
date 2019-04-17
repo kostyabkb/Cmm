@@ -185,11 +185,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\git\\Cmm\\Cmm.Contracts\\Cmm.Contracts.csproj",
+      "projectUniqueName": "C:\\git\\beder_snippets\\Cmm.Contracts\\Cmm.Contracts.csproj",
       "projectName": "Cmm.Contracts",
-      "projectPath": "C:\\git\\Cmm\\Cmm.Contracts\\Cmm.Contracts.csproj",
+      "projectPath": "C:\\git\\beder_snippets\\Cmm.Contracts\\Cmm.Contracts.csproj",
       "packagesPath": "C:\\Users\\Beder.Kon\\.nuget\\packages\\",
-      "outputPath": "C:\\git\\Cmm\\Cmm.Contracts\\obj\\",
+      "outputPath": "C:\\git\\beder_snippets\\Cmm.Contracts\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -203,7 +203,12 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "http://artifactory.infotecs.ru:1097/api/v2": {},
+        "http://msk-tfs-t.infotecs-nt:8080/tfs/SrvNccCollection/_packaging/infotecs/nuget/v3/index.json": {},
+        "http://msk-tfs-t.infotecs-nt:8080/tfs/SrvNccCollection/_packaging/team/nuget/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {},
+        "https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json": {},
+        "https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json": {},
         "https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore-tooling/index.json": {},
         "https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore/index.json": {},
         "https://dotnetfeed.blob.core.windows.net/aspnet-entityframeworkcore/index.json": {},

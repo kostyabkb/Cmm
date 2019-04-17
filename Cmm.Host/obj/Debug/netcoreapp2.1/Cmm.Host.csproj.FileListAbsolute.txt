@@ -1,4 +1,0 @@
-C:\git\Cmm\Cmm.Host\obj\Debug\netcoreapp2.1\Cmm.Host.csprojAssemblyReference.cache
-C:\git\Cmm\Cmm.Host\obj\Debug\netcoreapp2.1\Cmm.Host.csproj.CoreCompileInputs.cache
-C:\git\Cmm\Cmm.Host\obj\Debug\netcoreapp2.1\Cmm.Host.AssemblyInfoInputs.cache
-C:\git\Cmm\Cmm.Host\obj\Debug\netcoreapp2.1\Cmm.Host.AssemblyInfo.cs

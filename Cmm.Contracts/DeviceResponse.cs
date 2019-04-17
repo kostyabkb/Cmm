@@ -1,7 +1,9 @@
-﻿namespace Cmm.Contracts
+﻿using System;
+
+namespace Cmm.Contracts
 {
     /// <summary>
-    /// Девайс, отправляемый.
+    /// Устройство, отправляемая статистика.
     /// </summary>
     public class DeviceResponse
     {

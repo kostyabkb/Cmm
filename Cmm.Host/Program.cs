@@ -1,44 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Cmm.Host;
+п»їusing System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
-namespace Cmm
+namespace Cmm.Host
 {
     /// <summary>
     /// Class Program.
     /// </summary>
     public class Program
     {
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+        }
+
         /// <summary>
-        /// Точка входа.
+        /// РўРѕС‡РєР° РІС…РѕРґР°.
         /// </summary>
-        /// <param name="args">Аргументы.</param>
+        /// <param name="args">РђСЂРіСѓРјРµРЅС‚С‹.</param>
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.File(@"logs\logs.txt")
+                .WriteTo.RollingFile(@"logs\logs.txt", LogEventLevel.Information)
+                .WriteTo.Seq("http://localhost:5341/")
                 .CreateLogger();
             AppDomain.CurrentDomain.ProcessExit += (s, e) => Log.CloseAndFlush();
-
-            CreateHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
-
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }

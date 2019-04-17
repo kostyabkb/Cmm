@@ -1,4 +1,5 @@
-﻿using Cmm.Host.Model;
+﻿using System;
+using Cmm.Contracts;
 using Cmm.Host.Services;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -6,13 +7,13 @@ using Serilog;
 namespace Cmm.Host.Controllers
 {
     /// <summary>
-    /// Контроллер.
+    /// Контроллер для работы с устройствами.
     /// </summary>
     [Route("api/[controller]")]
     public class StatisticController : Controller
     {
-        private readonly IStatisticService statisticService;
         private readonly ILogger logger = Log.ForContext<StatisticController>();
+        private readonly IStatisticService statisticService;
 
         /// <summary>
         /// Конструктор.
@@ -26,12 +27,12 @@ namespace Cmm.Host.Controllers
         /// <summary>
         /// Пост контроллер.
         /// </summary>
-        /// <param name="device">Девайс.</param>
+        /// <param name="device">Статистика устройства.</param>
         [HttpPost]
-        public void AddDevice([FromBody]DeviceStatistic device)
-        {        
-                logger.Debug("Были получены и валидированы данные.");
-                statisticService.Save(device);
+        public void AddDevice([FromBody] DeviceStatistic device)
+        {
+            logger.Debug("Были получены и валидированы данные.");
+            statisticService.Save(device);
         }
     }
 }

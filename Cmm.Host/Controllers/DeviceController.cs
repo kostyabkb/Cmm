@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using Cmm.Contracts;
 using Cmm.Host.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using System.Web;
 
 namespace Cmm.Host.Controllers
 {
     /// <summary>
-    /// Контроллер.
+    /// Контроллер для работы со статистикой устройств.
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
@@ -28,9 +28,10 @@ namespace Cmm.Host.Controllers
         }
 
         /// <summary>
-        /// Get контроллер.
+        /// Получение коллекции DeviceResponse.
         /// </summary>
-        /// <returns>Коллекцию элементов DeviceResponse.</returns>
+        /// <returns>Список информации об устройствах.</returns>
+        [EnableCors]
         [HttpGet]
         public List<DeviceResponse> GetDeviceList()
         {

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cmm.Contracts;
-using Cmm.Host.Model;
 
 namespace Cmm.Host.Services
 {
