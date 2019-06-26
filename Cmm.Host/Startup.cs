@@ -1,14 +1,19 @@
 ﻿using System;
+using Cmm.Contracts;
 using Cmm.Host.Migrations;
+using Cmm.Host.Model;
 using Cmm.Host.Repositories;
 using Cmm.Host.Services;
+using Cmm.Host.UOW;
 using FluentMigrator.Runner;
+using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using Cmm.Host.Hubs;
 
 namespace Cmm.Host
 {
@@ -17,13 +22,15 @@ namespace Cmm.Host
     /// </summary>
     public class Startup
     {
+        private const string ClientPath = "WebApp";
+
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="Configuration">Конфигурация.</param>
-        public Startup(IConfiguration Configuration)
+        /// <param name="configuration">Конфигурация.</param>
+        public Startup(IConfiguration configuration)
         {
-            this.Configuration = Configuration;
+            Configuration = configuration;
         }
 
         private IConfiguration Configuration { get; }
@@ -40,13 +47,43 @@ namespace Cmm.Host
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc()
-                .UseCors();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseSwagger()
                 .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API V1"); });
 
+            app.UseCors("CorsPolicy");
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotificationHub>("/chathub");
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
+            });
+
+            app.UseSpa(spa =>
+            {
+                //spa.Options.SourcePath = ClientPath;
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4300");
+                }
+            });
+
             MigrateDb();
+
+            var config = new TypeAdapterConfig();
+            TypeAdapterConfig<DeviceEventRequest, DeviceEvent>
+                .ForType()
+                .Map(dest => dest.Id, src => Guid.NewGuid());
         }
 
         /// <summary>
@@ -56,19 +93,22 @@ namespace Cmm.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Log.Logger);
-            services.AddSingleton<IStatisticService, StatisticService>();
-            services.AddTransient<IDeviceRepository, DbDeviceRepository>();
+            services.AddSingleton<IDevicesService, DevicesService>();
+            services.AddTransient<IDeviceEventService, DeviceEventService>();
+            services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
+            services.AddTransient<IStatisticService, StatisticService>();
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<NotificationHub>();
 
+            services.AddSignalR();
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:53871",
-                                "http://localhost:53872")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4300")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             });
 
             services.AddMvc();
@@ -96,7 +136,7 @@ namespace Cmm.Host
                 .AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddPostgres()
-                    .WithGlobalConnectionString(Configuration["ConnectionString"])
+                    .WithGlobalConnectionString(Configuration["connectionString"])
                     .ScanIn(typeof(InitialMigration).Assembly).For.Migrations())
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 .BuildServiceProvider(false);
@@ -104,6 +144,8 @@ namespace Cmm.Host
 
         private void MigrateDb()
         {
+            PostgreDbInitializer.CheckAndCreate(Configuration["connectionString"]);
+
             IServiceProvider serviceProvider = CreateServices();
             using (IServiceScope scope = serviceProvider.CreateScope())
             {

@@ -1,0 +1,35 @@
+<h3><p class="text-center">События</p></h3>
+
+<table class="table table-striped table-bordered" *ngIf="events.length > 0">
+  <thead>
+    <tr>
+      <th width=35%>Событие</th>
+      <th>Описание</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of events">
+      <td>{{event.name}}</td>
+      <td>
+        <div class="edit-box">
+          <div class="description-line">
+          <input type="text" class="form-control" value={{event.description}} (keyup)="0" #newdescription>
+        </div>
+          <div class="level-line">
+            <select class="custom-select" (mouseup)="0" #level>
+              <ng-container *ngFor="let key of keys; index as i">
+                <option *ngIf="keys[event.level] != keys[i]">{{keys[i]}}</option>
+              </ng-container>
+              <option selected={{event.level}}>{{keys[event.level]}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-box">
+          <button class="btn btn-success btn-sm"
+          [disabled]="checkChanges(newdescription.value, level.value, event)"
+          (click)="saveEventDescription(event.name, newdescription.value, level.value)">Save</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

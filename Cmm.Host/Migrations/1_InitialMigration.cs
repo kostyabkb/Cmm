@@ -1,8 +1,9 @@
-﻿using FluentMigrator;
+﻿using System;
+using FluentMigrator;
 
 namespace Cmm.Host.Migrations
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     [Migration(1)]
     public class InitialMigration : ForwardOnlyMigration
     {

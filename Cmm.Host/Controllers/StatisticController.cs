@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Cmm.Contracts;
 using Cmm.Host.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,10 +30,19 @@ namespace Cmm.Host.Controllers
         /// </summary>
         /// <param name="device">Статистика устройства.</param>
         [HttpPost]
-        public void AddDevice([FromBody] DeviceStatistic device)
+        public async Task AddDevice([FromBody] DeviceRequest device)
         {
             logger.Debug("Были получены и валидированы данные.");
-            statisticService.Save(device);
+
+            try
+            {
+                await statisticService.Save(device);
+            }
+            catch (Exception e)
+            {
+                logger.Error($"Error, transaction failed: {e.Message}");
+                throw;
+            }
         }
     }
 }

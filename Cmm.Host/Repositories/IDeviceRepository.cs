@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cmm.Host.Model;
 
 namespace Cmm.Host.Repositories
 {
     /// <summary>
-    /// Репозиторий device.
+    /// Репозиторий устройств.
     /// </summary>
     public interface IDeviceRepository
     {
@@ -13,25 +14,25 @@ namespace Cmm.Host.Repositories
         /// Добавить.
         /// </summary>
         /// <param name="device">Устройство.</param>
-        void Add(Device device);
+        Task Add(Device device);
 
         /// <summary>
         /// Получить список.
         /// </summary>
         /// <returns>Список Device.</returns>
-        List<Device> Get();
+        Task<List<Device>> Get();
 
         /// <summary>
         /// Получить объект по Id.
         /// </summary>
         /// <param name="deviceId">Id.</param>
         /// <returns>Найденный объект или null.</returns>
-        Device GetById(Guid deviceId);
+        Task<Device> GetById(Guid deviceId);
 
         /// <summary>
         /// Обновить запись.
         /// </summary>
         /// <param name="device">Устройство.</param>
-        void Update(Device device);
+        Task Update(Device device);
     }
 }

@@ -1,0 +1,6 @@
+<ul class="device">
+    <p class="text-center">Список узлов</p>
+    <li *ngFor="let device of devices" [class.selected]="device === selectedDevice" (click)="onSelect(device)">
+        <a routerLink="/devices/{{device.id}}">{{device.name}}</a>
+    </li>
+  </ul>

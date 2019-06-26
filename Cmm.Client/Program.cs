@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Blazor.Hosting;
+using Serilog;
+using Serilog.Events;
 
 namespace Cmm.Client
 {

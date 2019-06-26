@@ -30,13 +30,7 @@
           "http://msk-tfs-t.infotecs-nt:8080/tfs/SrvNccCollection/_packaging/team/nuget/v3/index.json": {},
           "https://api.nuget.org/v3/index.json": {},
           "https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json": {},
-          "https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore-tooling/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-entityframeworkcore/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-extensions/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/dotnet-windowsdesktop/index.json": {}
+          "https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
@@ -57,6 +51,10 @@
               "target": "Package",
               "version": "[2.0.3, )",
               "autoReferenced": true
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[4.5.0, )"
             }
           },
           "imports": [
@@ -93,13 +91,7 @@
           "http://msk-tfs-t.infotecs-nt:8080/tfs/SrvNccCollection/_packaging/team/nuget/v3/index.json": {},
           "https://api.nuget.org/v3/index.json": {},
           "https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json": {},
-          "https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore-tooling/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-entityframeworkcore/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/aspnet-extensions/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json": {},
-          "https://dotnetfeed.blob.core.windows.net/dotnet-windowsdesktop/index.json": {}
+          "https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp2.2": {
@@ -125,19 +117,23 @@
             },
             "FluentMigrator": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[3.2.1, )"
             },
             "FluentMigrator.Runner": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[3.2.1, )"
             },
             "FluentMigrator.Runner.Postgres": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[3.2.1, )"
             },
             "Mapster": {
               "target": "Package",
-              "version": "[4.0.0, )"
+              "version": "[4.1.0, )"
+            },
+            "Microsoft.AspNet.SignalR": {
+              "target": "Package",
+              "version": "[2.4.1, )"
             },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
@@ -162,11 +158,11 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.1, )"
+              "version": "[12.0.2, )"
             },
             "Npgsql": {
               "target": "Package",
-              "version": "[4.0.6, )"
+              "version": "[4.0.7, )"
             },
             "Serilog": {
               "target": "Package",

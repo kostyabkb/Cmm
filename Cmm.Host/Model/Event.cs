@@ -3,28 +3,23 @@
 namespace Cmm.Host.Model
 {
     /// <summary>
-    /// Событие.
+    /// Описание событий.
     /// </summary>
     public class Event
     {
         /// <summary>
-        /// Id.
+        /// Описания события.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
-        /// Имя.
+        /// Имя события.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Время.
+        /// Уровень критичности.
         /// </summary>
-        public DateTimeOffset Date { get; set; }
-
-        /// <summary>
-        /// Id устройства.
-        /// </summary>
-        public Guid DeviceId { get; set; }
+        public EventLevel Level { get; set; }
     }
 }

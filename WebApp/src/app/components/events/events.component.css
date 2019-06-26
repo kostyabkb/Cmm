@@ -1,0 +1,20 @@
+.edit-box {
+  width:90%;
+  overflow:auto;
+  float:left;
+  margin-right: 5px;
+}
+
+.description-line {
+  width: 75%;
+  float:left;
+}
+.level-line {
+  width: 23%;
+  float:left;
+  margin-left: 5px;
+}
+
+.button-box{
+  margin-top: 3px;
+}

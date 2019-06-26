@@ -1,0 +1,49 @@
+﻿@page "/events/{DeviceId}"
+@using System.IO
+@using System.Net
+@using Microsoft.AspNetCore.Components
+@using Contracts
+@inject HttpClient Http
+
+<h1>Мониторинг</h1>
+
+<p>Сервис мониторинга мобильного приложения.</p>
+
+@if (deviceEvents == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Событие</th>
+            <th>Время</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in deviceEvents)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Date</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@functions {
+
+    [Parameter]
+    string DeviceId { get; set; }
+
+    DeviceEventResponse[] deviceEvents;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        deviceEvents = await Http.GetJsonAsync<DeviceEventResponse[]>($@"http://localhost:5000/api/event?id={DeviceId}");
+    }
+
+}

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cmm.Contracts;
 
 namespace Cmm.Host.Services
@@ -10,15 +10,9 @@ namespace Cmm.Host.Services
     public interface IStatisticService
     {
         /// <summary>
-        /// Получить статистику.
+        /// Сохранения устройства и событий.
         /// </summary>
-        /// <returns>Коллекция статистики в виде DeviceResponse.</returns>
-        List<DeviceResponse> GetStatistic();
-
-        /// <summary>
-        /// Сохранить(или обновить) статистику device.
-        /// </summary>
-        /// <param name="device">Статистика в виде DeviceStatistic.</param>
-        void Save(DeviceStatistic device);
+        /// <param name="device">Устройство.</param>
+        Task Save(DeviceRequest device);
     }
 }

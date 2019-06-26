@@ -1,0 +1,20 @@
+.text-block {
+  margin-right: 20px;
+  margin-left: 20px;
+  }
+
+.button-right {
+  text-align: right;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.devices{
+  width:40%;
+  overflow:auto;
+  float:left;
+}
+
+.device-details{
+  width:60%;
+  overflow:auto;
+}

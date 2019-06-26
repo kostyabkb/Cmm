@@ -1,4 +1,10 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@using System.IO
+@using System.Net
+@using Microsoft.AspNetCore.Components
+@using Contracts
+@inject HttpClient Http
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Cmm.Client</a>
     <button class="navbar-toggler" onclick="@ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -7,21 +13,43 @@
 
 <div class="@NavMenuCssClass" onclick="@ToggleNavMenu">
     <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Мониторинг
-            </NavLink>
-        </li>
+        @if (devices == null)
+        {
+            <p class="text-white" align="center"><em>Загрузка...</em></p>
+        }
+        else
+        {
+            foreach (var device in devices)
+            {
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href=@GetDeviceUri(device.Id) Match="NavLinkMatch.All">
+                        @device.Name | @device.Os | @device.Version
+                    </NavLink>
+                </li>
+            }
+        }
     </ul>
 </div>
 
 @functions {
     bool collapseNavMenu = true;
 
+    DeviceResponse[] devices;
+
     string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnInitAsync()
+    {
+        devices = await Http.GetJsonAsync<DeviceResponse[]>(@"http://localhost:5000/api/device");
+    }
+
+    string GetDeviceUri(Guid deviceId)
+    {
+        return $"/events/{deviceId}";
     }
 }

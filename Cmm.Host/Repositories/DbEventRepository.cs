@@ -2,45 +2,61 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Cmm.Host.Model;
 using Dapper;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
 
 namespace Cmm.Host.Repositories
 {
     /// <inheritdoc/>
     public class DbEventRepository : IEventRepository
     {
-        private readonly string connectionString;
-
-        private IDbConnection Connection => new NpgsqlConnection(connectionString);
+        private readonly IDbConnection connection;
+        private readonly IDbTransaction transaction;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="configuration">Конфигурация.</param>
-        public DbEventRepository(IConfiguration configuration)
+        /// <param name="connection">Соединение.</param>
+        /// <param name="transaction">Транзакция.</param>
+        public DbEventRepository(IDbConnection connection, IDbTransaction transaction)
         {
-            connectionString = configuration["ConnectionString"];
+            this.connection = connection;
+            this.transaction = transaction;
         }
 
-        public void Add(Event newEvent)
+        public async Task Add(string eventName)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                dbConnection.Execute("INSERT INTO public.events (id, name, date, device_id) VALUES (@Id, @Name, @Date, @DeviceId)", newEvent);
-            }
+            await connection.ExecuteAsync(
+                "INSERT INTO public.events(name) VALUES (@Name)",
+                new { Name = eventName },
+                transaction);
         }
 
-        public List<Event> Get()
+        public async Task<List<Event>> Get()
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                return dbConnection.Query<Event>("SELECT id, name, date, device_id FROM public.events;").ToList();
-            }
+            IEnumerable<Event> response = await connection.QueryAsync<Event>(
+                "SELECT name, description, level FROM public.events",
+                transaction);
+            return response.ToList();
+        }
+
+        public async Task<Event> GetByName(string name)
+        {
+            IEnumerable<Event> response = await connection.QueryAsync<Event>(
+                "SELECT name, description, level FROM public.events WHERE name = @Name",
+                new { Name = name },
+                transaction);
+
+            return response.FirstOrDefault();
+        }
+
+        public async Task Update(Event @event)
+        {
+            await connection.ExecuteAsync(
+                "UPDATE public.events SET description = @Description, level=@Level WHERE name = @Name",
+                @event,
+                transaction);
         }
     }
 }

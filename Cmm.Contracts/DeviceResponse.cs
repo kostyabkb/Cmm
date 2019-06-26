@@ -8,6 +8,11 @@ namespace Cmm.Contracts
     public class DeviceResponse
     {
         /// <summary>
+        /// Id устройства.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Имя.
         /// </summary>
         public string Name { get; set; }

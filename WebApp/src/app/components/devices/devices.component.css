@@ -1,0 +1,44 @@
+.device {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 440px;
+  }
+  .device li {
+    position: relative;
+    cursor: pointer;
+    background-color: #EEE;
+    margin: .3em;
+    padding: .3em 0;
+    height: 2.5em;
+    border-radius: 4px;
+    padding: 0.5em 0.7em 0 0.7em;
+  }
+
+  .devices li.selected:hover {
+    background-color: #BBD8DC !important;
+    color: white;
+  }
+
+  .devices li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+  }
+
+  .device a {
+    color: #888;
+    text-decoration: none;
+    position: relative;
+    display: block;
+    width: 250px;
+  }
+
+  .device a:hover {
+    color:#607D8B;
+  }
+
+  .selected {
+    background-color: #CFD8DC !important;
+    color: white;
+  }

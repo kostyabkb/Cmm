@@ -11,12 +11,6 @@ namespace Cmm.Host
     /// </summary>
     public class Program
     {
-        private static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-        }
-
         /// <summary>
         /// Точка входа.
         /// </summary>
@@ -28,8 +22,15 @@ namespace Cmm.Host
                 .WriteTo.RollingFile(@"logs\logs.txt", LogEventLevel.Information)
                 .WriteTo.Seq("http://localhost:5341/")
                 .CreateLogger();
+
             AppDomain.CurrentDomain.ProcessExit += (s, e) => Log.CloseAndFlush();
             CreateWebHostBuilder(args).Build().Run();
+        }
+
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
         }
     }
 }

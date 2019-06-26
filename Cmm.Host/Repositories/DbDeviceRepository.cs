@@ -2,63 +2,62 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Cmm.Host.Model;
 using Dapper;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
 
 namespace Cmm.Host.Repositories
 {
     /// <inheritdoc/>
     public class DbDeviceRepository : IDeviceRepository
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
+        private readonly IDbTransaction transaction;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="configuration">Конфигурация.</param>
-        public DbDeviceRepository(IConfiguration configuration)
+        /// <param name="connection">Соединение.</param>
+        /// <param name="transaction">Транзакция.</param>
+        public DbDeviceRepository(IDbConnection connection, IDbTransaction transaction)
         {
-            connectionString = configuration["ConnectionString"];
+            this.connection = connection;
+            this.transaction = transaction;
         }
 
-        private IDbConnection Connection => new NpgsqlConnection(connectionString);
-
-        public void Add(Device device)
+        public async Task Add(Device device)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                dbConnection.Execute("INSERT INTO public.devices (id, name, os, version) VALUES(@Id, @Name, @Os, @Version)", device);
-            }
+            await connection.ExecuteAsync(
+                "INSERT INTO public.devices (id, name, os, version) VALUES(@Id, @Name, @Os, @Version)",
+                device,
+                transaction);
         }
 
-        public List<Device> Get()
+        public async Task<List<Device>> Get()
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                return dbConnection.Query<Device>("SELECT os, name, id, version FROM public.devices").ToList();
-            }
+            IEnumerable<Device> response = await connection.QueryAsync<Device>(
+                "SELECT os, name, id, version FROM public.devices",
+                transaction);
+
+            return response.ToList();
         }
 
-        public Device GetById(Guid deviceId)
+        public async Task<Device> GetById(Guid deviceId)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                return dbConnection.Query<Device>("SELECT os, name, id, version FROM public.devices WHERE id = @Id", new { Id = deviceId }).FirstOrDefault();
-            }
+            IEnumerable<Device> response = await connection.QueryAsync<Device>(
+                "SELECT os, name, id, version FROM public.devices WHERE id = @Id",
+                new { Id = deviceId },
+                transaction);
+
+            return response.FirstOrDefault();
         }
 
-        public void Update(Device device)
+        public async Task Update(Device device)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                dbConnection.Open();
-                dbConnection.Execute("UPDATE public.devices SET id = @Id, name = @Name, os = @Os, version = @Version WHERE id = @Id", device);
-            }
+            await connection.ExecuteAsync(
+                "UPDATE public.devices SET name = @Name, os = @Os, version = @Version WHERE id = @Id",
+                device,
+                transaction);
         }
     }
 }
